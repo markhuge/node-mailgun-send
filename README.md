@@ -58,7 +58,7 @@ app.post('/forgotPassword', function (req,res) {
   var msg = {
     subject: 'Password reset confirmation',
     recipient: req.body.email
-    body: 'Click <a href="http://myapp.com/resetpassword?key=' + key + ">here</a> to reset your password'
+    body: 'Click <a href="http://myapp.com/resetpassword?key=' + key + '">here</a> to reset your password'
   };
 
   mail.send(msg);
