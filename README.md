@@ -1,4 +1,4 @@
-# mailgun-send
+# mailgun-send ![Dependency Status](https://gemnasium.com/markhuge/node-mailgun-send.svg)
 
 Send mail via mailgun
 
