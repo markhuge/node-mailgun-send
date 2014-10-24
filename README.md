@@ -36,6 +36,7 @@ properties:
 - recipient - optional default recipient
 - subject - optional default subject
 - body - optional default body
+- batchRecipients - Send 1 email to all recipients instead of individual to each recipient (default `true`)
 
 Defaults (except the API key) can be overriden on every send.
 
