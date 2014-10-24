@@ -10,3 +10,4 @@ deploy:
   on:
     tags: true
     repo: markhuge/node-mailgun-send
+    all_branches: true
