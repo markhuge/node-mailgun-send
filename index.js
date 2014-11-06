@@ -19,8 +19,15 @@ var Mailgun = require('mailgun').Mailgun;
     this._mailer = new Mailgun(key);
   };
 
+  mailer.prototype.buildHeaders = function (headers) {
+    var _headers = "\nContent-Type: text/html; charset=utf-8"
+      if (headers) _headers = _headers + "; " + headers;
+    return _headers;
+  }
+
   mailer.prototype.send = function(data, callback) {
-    var raw;
+    var raw,
+        headers = this.buildHeaders(data.headers);
     if (typeof data.sender === "undefined" || data.sender === null) {
       if (this._config.sender) data.sender = this._config.sender;
       else throw("No Sender specified");
@@ -29,11 +36,11 @@ var Mailgun = require('mailgun').Mailgun;
     if (data.recipient instanceof Array && this._config.batchRecipients === false) {
       for (var i = 0; i < data.recipient.length; i++) {
         var to  = data.recipient[i];
-        raw = "From: " + data.sender + "\nTo: " + to + "\nContent-Type: text/html; charset=utf-8\nSubject: " + data.subject + "\n\n " + data.body;
+        raw = "From: " + data.sender + "\nTo: " + to + headers + "\nSubject: " + data.subject + "\n\n " + data.body;
         this._mailer.sendRaw(data.sender, to, raw, callback);
       }
     } else {
-      raw = "From: " + data.sender + "\nTo: " + data.recipient + "\nContent-Type: text/html; charset=utf-8\nSubject: " + data.subject + "\n\n " + data.body;
+      raw = "From: " + data.sender + "\nTo: " + data.recipient + headers + "\nSubject: " + data.subject + "\n\n " + data.body;
       this._mailer.sendRaw(data.sender, data.recipient, raw, callback);
     }
 
