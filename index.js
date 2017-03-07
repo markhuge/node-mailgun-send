@@ -1,50 +1,58 @@
-/*jslint node: true */
-'use strict';
+/* jshint esversion: 6, node: true */
 
-var Mailgun = require('mailgun').Mailgun;
+const mailgun = require('mailgun.js');
 
-
-  function mailer() {}
-
-  mailer.prototype.config = function(obj) {
-    if (!(typeof obj !== "undefined" && obj !== null ? obj.key : void 0)) { throw('Missing Mailgun API key'); }
-    else {
-        this._connect(obj.key);
-        this._config = obj;
-        return this._config;
-       }
-  };
+class Mailer {
+  constructor() {
+    this.client  = "uninitialized";
+    this.domain = "sandbox123@mailgun.org";
+    this.sender = "noreply@example.com";
+  }
   
-  mailer.prototype._connect = function (key) {
-    this._mailer = new Mailgun(key);
-  };
-
-  mailer.prototype.buildHeaders = function (headers) {
-    var _headers = "\nContent-Type: text/html; charset=utf-8"
-      if (headers) _headers = _headers + "; " + headers;
-    return _headers;
+  // construct email headers
+  buildheaders(headers) {
+    var tmpHeaders = this.headers;
+    if (headers) tmpheaders += `;${headers}`;
+    return tmpHeaders;
   }
 
-  mailer.prototype.send = function(data, callback) {
-    var raw,
-        headers = this.buildHeaders(data.headers);
-    if (typeof data.sender === "undefined" || data.sender === null) {
-      if (this._config.sender) data.sender = this._config.sender;
-      else throw("No Sender specified");
+  config(obj) {
+    if (!obj) throw('Missing configuration object');
+    if (!obj.key) throw('Missing Mailgun API key'); 
+    if (!obj.username) throw('Missing Mailgun username'); 
+
+    if (!obj.domain) {
+      console.warn(`No domain specified. using ${this.domain}`);
+    } else { 
+      this.domain = obj.domain;
+      // remove obj to prevent side effects in the mailgun client
+      delete obj.domain;
+    }
+    
+    if (!obj.sender) {
+      console.warn(`No sender specified. using ${this.sender}`);
+    } else { 
+      this.sender = obj.sender;
+      // remove obj to prevent side effects in the mailgun client
+      delete obj.sender;
     }
 
-    if (data.recipient instanceof Array && this._config.batchRecipients === false) {
-      for (var i = 0; i < data.recipient.length; i++) {
-        var to  = data.recipient[i];
-        raw = "From: " + data.sender + "\nTo: " + to + headers + "\nSubject: " + data.subject + "\n\n " + data.body;
-        this._mailer.sendRaw(data.sender, to, raw, callback);
-      }
-    } else {
-      raw = "From: " + data.sender + "\nTo: " + data.recipient + headers + "\nSubject: " + data.subject + "\n\n " + data.body;
-      this._mailer.sendRaw(data.sender, data.recipient, raw, callback);
-    }
+    this.client = mailgun.client(obj);
+  }
 
-  };
+  send(data, callback) {
+    if (this.client === "uninitialized") throw("mailgun client hasn't been configured yet! run .config()");
+    var payload = _parse(data);
 
-  
-module.exports = new mailer();
+    this.client.messages.create(payload)
+      .then(msg => callback(undefined, msg))
+      .catch(err => callback(err));
+  }
+
+  _parse(data) {
+    data.domain = data.domain || this.domain;
+    return data;
+  }
+}
+
+module.exports = new Mailer();

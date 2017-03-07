@@ -4,7 +4,7 @@
   "description": "Send mail via mailgun",
   "main": "index.js",
   "dependencies": {
-    "mailgun": "~0.4.2"
+    "mailgun.js": "^2.0.1"
   },
   "devDependencies": {
     "mocha": "~1.19.0",

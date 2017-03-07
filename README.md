@@ -2,6 +2,10 @@
 
 Send mail via mailgun
 
+## NOTE: Mailgun changed their API
+
+If you are using < v1.0 of this library there are breaking changes due to the changes in the mailgun api.
+
 # install
 
 With [npm](https://npmjs.org) do:
@@ -16,6 +20,7 @@ var mail = require('mailgun-send');
 
 mail.config({
   key: '<mailgun api key>',
+  username: '<mailgun user name>',
   sender: 'noreply@myapp.com'
 });
 
