@@ -1,20 +1,10 @@
 {
   "name": "mailgun-send",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Send mail via mailgun",
   "main": "index.js",
   "dependencies": {
     "mailgun.js": "^2.0.1"
-  },
-  "devDependencies": {
-    "mocha": "~1.19.0",
-    "chai": "~1.9.1",
-    "travis-cov": "~0.2.5",
-    "blanket": "~1.1.6",
-    "sinon": "~1.10.0"
-  },
-  "scripts": {
-    "test": "mocha"
   },
   "config": {
     "blanket": {
