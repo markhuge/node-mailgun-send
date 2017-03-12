@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-- '0.10'
-- '0.11'
+  - "node"
+  - "6"
+  - "5"
+  - "4"
 deploy:
   provider: npm
-  email: mark@segfawlt.net
+  email: mark@markwilkerson.me
   api_key:
     secure: OxaLybJy0cqQGLahp2cfQQsV3jtzvO1jlHAZqTX9JGVux1RkpRt0ITM0NwTBQifOXQx2qc7tKHOjuIUyWF+4zCdRWO0EXI4x4m+4ED8bcjz3PQ5ZbCYWvUJFMv+3bL9309bJ/dxY1fBUeJ7KwIloyYVb2VFSLRiRcSnMkbvMCPo=
   on:
