@@ -2,6 +2,10 @@
 
 Send mail via mailgun
 
+## NOTE: Mailgun changed their API
+
+If you are using < v1.0 of this library there are breaking changes due to the changes in the mailgun api.
+
 # install
 
 With [npm](https://npmjs.org) do:
@@ -12,11 +16,14 @@ npm install mailgun-send
 # usage
 
 ``` Javascript
-var mail = require('mailgun-send');
+const mail   = require('mailgun-send');
+const domain = "myapp.com";
+const key    = "<mailgun api key>"
 
 mail.config({
-  key: '<mailgun api key>',
-  sender: 'noreply@myapp.com'
+  key: key,
+  domain: domain,
+  sender: `noreply@${domain}`
 });
 
 mail.send({
@@ -36,7 +43,6 @@ properties:
 - recipient - optional default recipient
 - subject - optional default subject
 - body - optional default body
-- batchRecipients - Send 1 email to all recipients instead of individual to each recipient (default `true`)
 
 Defaults (except the API key) can be overriden on every send.
 
