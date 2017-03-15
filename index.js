@@ -9,7 +9,7 @@ class Mailer {
     this.sender = "noreply@example.com";
     this.username = "api";
     this.body = undefined ;
-    this.subject = undefined;
+    this.subject = "";
   }
   
   // construct email headers
@@ -84,6 +84,8 @@ class Mailer {
     var isHTML = function(str) { return /<[a-z][\s\S]*>/i.test(str); };
     if (isHTML(body)) data.html = body;
     else data.text = body;
+
+    data.subject = data.subject || this.subject;
 
     return data;
   }
