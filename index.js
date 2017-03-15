@@ -84,7 +84,6 @@ class Mailer {
     var isHTML = function(str) { return /<[a-z][\s\S]*>/i.test(str); };
     if (isHTML(body)) data.html = body;
     else data.text = body;
-    console.log(data);
 
     return data;
   }
