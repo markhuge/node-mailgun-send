@@ -1,6 +1,6 @@
 {
   "name": "mailgun-send",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Send mail via mailgun",
   "main": "index.js",
   "dependencies": {
